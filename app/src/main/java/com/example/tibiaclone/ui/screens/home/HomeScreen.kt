@@ -1,7 +1,10 @@
 package com.example.tibiaclone.ui.screens.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -13,9 +16,12 @@ import com.example.tibiaclone.viewmodel.HomeViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.tibiaclone.utils.getPokemonBackgroundColor
 
 @Composable
 fun HomeScreen(
@@ -36,11 +42,24 @@ fun HomeScreen(
             Subtitle("Daily information do paraguai")
             Spacer(modifier = Modifier.height(20.dp))
 
-            LazyRow(modifier = Modifier.padding(end = 10.dp)) {
+            LazyColumn(modifier = Modifier.padding(end = 10.dp)) {
                 item { Spacer(modifier = Modifier.width(commonMargin.dp)) }
 
-                items(pokemonList) { pokemon ->
-                    PokemonBox(pokemon) { viewModel.selectPokemon(it) }
+                items(pokemonList.chunked(2)) { rowItems ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        rowItems.forEach { pokemon ->
+                            PokemonBox(
+                                pokemon = pokemon,
+                                onCLick = {viewModel.selectPokemon(it)},
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(2.dp)
+                            )
+                        }
+                    }
                 }
             }
 
@@ -50,6 +69,9 @@ fun HomeScreen(
                 selectedPokemon?.let {
                     Box(
                         modifier = Modifier.clickable {
+
+                            getPokemonBackgroundColor(it)
+
                             val name = it.name
                             val spriteUrl =
                                 java.net.URLEncoder.encode(it.sprites.front_default, "UTF-8")
@@ -68,8 +90,8 @@ fun HomeScreen(
         Box(
 
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-        ){
-          CircularProgressIndicator()
+        ) {
+            CircularProgressIndicator()
         }
     }
 

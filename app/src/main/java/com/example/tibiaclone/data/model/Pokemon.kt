@@ -1,4 +1,5 @@
 package com.example.tibiaclone.data.model
+import PokemonType
 
 data class Pokemon(
     val id: Int,
@@ -21,7 +22,7 @@ data class PokemonTypeSlot(
 )
 
 data class TypeInfo(
-    val name: String
+    val name: PokemonType
 )
 
 data class PokemonStat(

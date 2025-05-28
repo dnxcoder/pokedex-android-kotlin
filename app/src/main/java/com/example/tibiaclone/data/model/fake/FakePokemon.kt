@@ -12,11 +12,11 @@ val fakePokemon = Pokemon(
     types = listOf(
         PokemonTypeSlot(
             slot = 1,
-            type = TypeInfo(name = "grass")
+            type = TypeInfo(name = PokemonType.Grass)
         ),
         PokemonTypeSlot(
             slot = 2,
-            type = TypeInfo(name = "poison")
+            type = TypeInfo(name = PokemonType.Poison)
         )
     ),
     stats = listOf(
