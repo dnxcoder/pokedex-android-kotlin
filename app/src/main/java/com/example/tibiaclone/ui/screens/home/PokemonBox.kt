@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
@@ -39,7 +40,7 @@ import com.example.tibiaclone.utils.getPrettyRemoteSprites
 
 @Composable
 fun PokemonBox(
-    pokemon: Pokemon, onCLick: (Pokemon) -> Unit, modifier: Modifier = Modifier
+    pokemon: Pokemon, modifier: Modifier = Modifier, onCLick: (Pokemon) -> Unit
 ) {
     val borderGray = colorResource(id = R.color.border_gray)
 
@@ -54,9 +55,9 @@ fun PokemonBox(
             )
             .border(width = 1.dp, color = borderGray, shape = RoundedCornerShape(8.dp))
             .clipToBounds() // overflow -> hidden
-        .clickable {
-            onCLick(pokemon)
-        }
+            .clickable {
+                onCLick(pokemon)
+            }
             .padding(5.dp)) {
         Column(
             modifier = Modifier
@@ -72,9 +73,10 @@ fun PokemonBox(
             )
             pokemon.types.forEach {
 
-                TypeBox(pokemon = pokemon, pokemonType = it.type.name, modifier = Modifier
-                    .align(Alignment.Start)
-                    .offset(x= -(15.dp))
+                TypeBox(
+                    pokemon = pokemon, pokemonType = it.type.name, modifier = Modifier
+                        .align(Alignment.Start)
+                        .offset(x = -(15.dp))
                 )
             }
         }
@@ -85,8 +87,19 @@ fun PokemonBox(
                 .fillMaxSize(0.9f)
                 .align(Alignment.BottomEnd)
                 .offset(x = 25.dp, y = 0.dp)
-                .zIndex(1f)
+                .zIndex(2f)
         )
+        AsyncImage(
+            model = "https://pokedex.dnxcoder.com/static/media/pokeball-logo.a3591748.png",
+            contentDescription = "Sprite do ${pokemon.name}",
+            modifier = Modifier
+                .fillMaxSize(0.8f)
+                .align(Alignment.CenterEnd)
+                .offset(x = 25.dp, y = 0.dp)
+                .zIndex(1f)
+                .alpha(0.2f)
+        )
+
 
     }
 

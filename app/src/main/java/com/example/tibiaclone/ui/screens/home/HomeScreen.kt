@@ -1,5 +1,6 @@
 package com.example.tibiaclone.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,7 +54,11 @@ fun HomeScreen(
                         rowItems.forEach { pokemon ->
                             PokemonBox(
                                 pokemon = pokemon,
-                                onCLick = {viewModel.selectPokemon(it)},
+                                onCLick = { it
+                                    viewModel.setSelectedPokemon(it);
+                                    Log.d("Debug", it.toString())
+                                    navController.navigate("details");
+                                },
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(2.dp)
@@ -63,28 +68,28 @@ fun HomeScreen(
                 }
             }
 
-            Box(
-                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-            ) {
-                selectedPokemon?.let {
-                    Box(
-                        modifier = Modifier.clickable {
-
-                            getPokemonBackgroundColor(it)
-
-                            val name = it.name
-                            val spriteUrl =
-                                java.net.URLEncoder.encode(it.sprites.front_default, "UTF-8")
-                            navController.navigate("details/$name/$spriteUrl")
-                        }) {
-                        AsyncImage(
-                            model = it.sprites.front_default,
-                            contentDescription = "Sprite of ${it.name}",
-                            modifier = Modifier.size(300.dp)
-                        )
-                    }
-                }
-            }
+//            Box(
+//                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+//            ) {
+//                selectedPokemon?.let {
+//                    Box(
+//                        modifier = Modifier.clickable {
+//
+//                            getPokemonBackgroundColor(it)
+//
+//                            val name = it.name
+//                            val spriteUrl =
+//                                java.net.URLEncoder.encode(it.sprites.front_default, "UTF-8")
+//                            navController.navigate("details/$name/$spriteUrl")
+//                        }) {
+//                        AsyncImage(
+//                            model = it.sprites.front_default,
+//                            contentDescription = "Sprite of ${it.name}",
+//                            modifier = Modifier.size(300.dp)
+//                        )
+//                    }
+//                }
+//            }
         }
     } else {
         Box(

@@ -25,7 +25,7 @@ open class HomeViewModel : ViewModel() {
         }
     }
 
-    fun selectPokemon(pokemon: Pokemon) {
+    fun setSelectedPokemon(pokemon: Pokemon) {
         this._selectedPokemon.value = pokemon
     }
 }
