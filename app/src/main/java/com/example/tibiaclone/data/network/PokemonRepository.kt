@@ -9,7 +9,7 @@ object PokemonRepository {
         val list = mutableListOf<Pokemon>()
         for (i in 1..200){
             try {
-                val pokemon = RetrofitInstance.api.getPokemonById(i)
+                val pokemon = RetrofitInstance.pokeApi.getPokemonById(i)
                 list.add(pokemon)
             } catch (e: Exception){
                 e.printStackTrace()
