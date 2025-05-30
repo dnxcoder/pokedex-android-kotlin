@@ -27,16 +27,21 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.tibiaclone.data.model.Pokemon
 import com.example.tibiaclone.utils.getPokemonBackgroundColor
 import com.example.tibiaclone.utils.getPrettyRemoteSprites
-import com.example.tibiaclone.viewmodel.HomeViewModel
+import com.example.tibiaclone.viewmodel.DetailViewModel
+
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun DetailsScreen(viewModel: HomeViewModel) {
+fun DetailsScreen(pokemonId:Int, viewModel: DetailViewModel = hiltViewModel()) {
     val selectedPokemon by viewModel.selectedPokemon.collectAsState()
+
+    Log.d("debug", "decription screen meu pokemon eh ${selectedPokemon!!.name}")
+
     selectedPokemon?.let { pokemon ->
         BoxWithConstraints {
             val spriteOffset = maxHeight * 0.1f

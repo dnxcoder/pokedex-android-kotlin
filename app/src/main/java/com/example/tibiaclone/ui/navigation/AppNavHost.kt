@@ -13,15 +13,20 @@ import com.example.tibiaclone.viewmodel.HomeViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-    val sharedViewModel: HomeViewModel = viewModel() // <- uma única instância aqui!
+    //val sharedViewModel: HomeViewModel = viewModel() // <- uma única instância aqui!
 
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { backStackEntry ->
 
-            HomeScreen(navController, viewModel = sharedViewModel)
+            HomeScreen(navController)
         }
-        composable("details"){ backStackEntry ->
-            DetailsScreen(viewModel = sharedViewModel)
+        composable("details/{pokemonId}") { backStackEntry ->
+            //DetailsScreen(viewModel = sharedViewModel)
+            val pokemonId = backStackEntry.arguments?.getString("pokemonId")?.toIntOrNull()
+
+            if (pokemonId != null) {
+                DetailsScreen(pokemonId = pokemonId)
+            }
         }
     }
 }

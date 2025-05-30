@@ -2,21 +2,53 @@ package com.example.tibiaclone.data.network
 
 import android.util.Log
 import com.example.tibiaclone.data.model.Pokemon
+import javax.inject.Inject
 
-object PokemonRepository {
+class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) {
 
-    suspend fun getFirstTenPokemons(): List<Pokemon>{
-        val list = mutableListOf<Pokemon>()
-        for (i in 1..200){
+    private val pokemonCache = mutableMapOf<Int, Pokemon>();
+
+    suspend fun getPokemon(id: Int): Pokemon {
+        return this.pokemonApi.getPokemonById(id);
+    }
+
+    fun getPokemonFromCache(id: Int?): Pokemon? {
+        return pokemonCache[id];
+    }
+
+
+
+    suspend fun getFirstThreePokemons(): List<Pokemon> {
+        val list = mutableListOf<Pokemon>();
+        for (i in 1..3) {
             try {
-                val pokemon = RetrofitInstance.pokeApi.getPokemonById(i)
+                val pokemon = this.pokemonApi.getPokemonById(i);
                 list.add(pokemon)
-            } catch (e: Exception){
-                e.printStackTrace()
+            } catch (error: Exception) {
+                error.printStackTrace()
                 Log.d("teste", "DEU ERROR NO POKEMON REPOSITORY PAI")
-                Log.d("teste", e.toString())
+                Log.d("teste", error.toString())
             }
         }
+        //adding Pokemons to Cache
+        list.forEach { pokemonCache[it.id] = it }
+        return list;
+    }
+
+    suspend fun getFirstFiveHundredPokemons(): List<Pokemon> {
+        val list = mutableListOf<Pokemon>();
+        for (i in 1..500) {
+            try {
+                val pokemon = this.pokemonApi.getPokemonById(i);
+                list.add(pokemon)
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("teste", "DEU ERROR NO POKEMON REPOSITORY PAI")
+                Log.d("teste", error.toString())
+            }
+        }
+        //adding Pokemons to Cache
+        list.forEach { pokemonCache[it.id] = it }
         return list;
     }
 }

@@ -4,7 +4,9 @@ import com.example.tibiaclone.data.model.Pokemon
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface PokeApi {
+
+
+interface PokemonApi {
     @GET("pokemon/{id}")
     suspend fun getPokemonById(@Path("id") id:Int): Pokemon
 

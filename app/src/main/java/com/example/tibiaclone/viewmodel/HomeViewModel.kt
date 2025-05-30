@@ -4,28 +4,33 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tibiaclone.data.model.Pokemon
-import com.example.tibiaclone.data.model.Sprites
 import com.example.tibiaclone.data.model.fake.fakePokemon
 import com.example.tibiaclone.data.network.PokemonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-open class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val pokemonRepository: PokemonRepository
+) : ViewModel() {
+
     private val _pokemonList = MutableStateFlow<List<Pokemon>>(emptyList())
-    open val pokemonList: StateFlow<List<Pokemon>> = _pokemonList
+    val pokemonList: StateFlow<List<Pokemon>> = _pokemonList
 
     private val _selectedPokemon = MutableStateFlow<Pokemon?>(fakePokemon)
-    open val selectedPokemon: StateFlow<Pokemon?> = _selectedPokemon
+    val selectedPokemon: StateFlow<Pokemon?> = _selectedPokemon
 
     init {
         viewModelScope.launch {
-            _pokemonList.value = PokemonRepository.getFirstTenPokemons()
-            Log.d("teste", "passou por aqui")
+            _pokemonList.value = pokemonRepository.getFirstFiveHundredPokemons()
         }
     }
 
     fun setSelectedPokemon(pokemon: Pokemon) {
-        this._selectedPokemon.value = pokemon
+        Log.d("debug", "trocando de pokemon ===> ${pokemon.name}")
+        _selectedPokemon.value = pokemon
     }
 }
