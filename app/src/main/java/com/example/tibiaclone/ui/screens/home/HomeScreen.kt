@@ -29,9 +29,9 @@ fun HomeScreen(
 
     if (pokemonList.isNotEmpty()) {
         Column {
-            Title("Home")
+
             Spacer(modifier = Modifier.height(20.dp))
-            Subtitle("Daily information do paraguai")
+            Subtitle("Pokedex")
             Spacer(modifier = Modifier.height(20.dp))
 
             LazyColumn(modifier = Modifier.padding(end = 10.dp)) {

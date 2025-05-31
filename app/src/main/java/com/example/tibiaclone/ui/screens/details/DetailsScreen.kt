@@ -2,6 +2,7 @@ package com.example.tibiaclone.ui.screens.details
 
 import PokemonType
 import android.annotation.SuppressLint
+import android.text.Layout
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,12 +28,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.tibiaclone.data.model.Pokemon
@@ -47,8 +50,8 @@ fun DetailsScreen(
     pokemonId: Int, navController: NavHostController, viewModel: DetailViewModel = hiltViewModel()
 ) {
     val selectedPokemon by viewModel.selectedPokemon.collectAsState()
+    val isAboutTabSelected by viewModel.isAboutTabSelected.collectAsState();
 
-    Log.d("debug", "decription screen meu pokemon eh ${selectedPokemon!!.name}")
 
     selectedPokemon?.let { pokemon ->
         BoxWithConstraints {
@@ -63,7 +66,11 @@ fun DetailsScreen(
                     pokemon = pokemon,
                     modifier = Modifier.align(Alignment.TopStart),
                     goBack = { navController.popBackStack() })
-                BottomSection(pokemon = pokemon, modifier = Modifier.align(Alignment.BottomEnd))
+                BottomSection(
+                    pokemon = pokemon,
+                    isAboutTabSelected = isAboutTabSelected,
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    toggleTab = { viewModel.toggleTab() })
 
                 Box(
                     modifier = Modifier
@@ -175,8 +182,9 @@ fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
 }
 
 @Composable
-fun BottomSection(pokemon: Pokemon, modifier: Modifier) {
-    val isAboutSelected = true
+fun BottomSection(
+    pokemon: Pokemon, isAboutTabSelected: Boolean, modifier: Modifier, toggleTab: () -> Unit
+) {
     val shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
 
     Box(
@@ -194,45 +202,92 @@ fun BottomSection(pokemon: Pokemon, modifier: Modifier) {
 
                 modifier = Modifier.fillMaxWidth()
             ) {
+
                 Text(
                     text = "About",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.conditionalBorder(isAboutSelected)
-                )
+                    modifier = Modifier
+                        .conditionalBorder(isAboutTabSelected)
+                        .clickable { toggleTab() })
                 Text(
                     text = "Base Stats",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.conditionalBorder(!isAboutSelected)
-                )
+                    modifier = Modifier
+                        .conditionalBorder(!isAboutTabSelected)
+                        .clickable { toggleTab() })
+
+
             }
             Spacer(Modifier.height(20.dp))
             Column {
-                StatsLines("Species", pokemon.types[0].type.name.name)
-                StatsLines(
-                    "Height",
-                    "${pokemon.height.toString()}''  (${convertFeetToMetersAndCentimeters(pokemon.height)}m) "
-                )
-                StatsLines(
-                    "Weight",
-                    "${pokemon.weight} lbs (${convertPoundsToKilograms(pokemon.weight)}kgs)"
-                )
-                MultipleStatsLines("Abilities", pokemon)
-
-                Spacer(Modifier.height(15.dp))
-                Text("Breeding", fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(10.dp))
-                StatsLines(
-                    "Gender",
-                    "♂ ${(8 - pokemon.gender_rate) * 12.5} ♀ ${pokemon.gender_rate * 12.5}%"
-                )
-                StatsLines("Eggs Groups", "Monster")
-                StatsLines("Egg Cycle", "Grass")
+                if (isAboutTabSelected) {
+                    AboutSection(pokemon)
+                } else {
+                    StatsSection(pokemon)
+                }
             }
 
         }
     }
+}
+
+@Composable
+fun AboutSection(pokemon: Pokemon) {
+    StatsLines("Species", pokemon.types[0].type.name.name)
+    StatsLines(
+        "Height",
+        "${pokemon.height.toString()}''  (${convertFeetToMetersAndCentimeters(pokemon.height)}m) "
+    )
+    StatsLines(
+        "Weight", "${pokemon.weight} lbs (${convertPoundsToKilograms(pokemon.weight)}kgs)"
+    )
+    //MultipleStatsLines("Abilities", pokemon)
+    StatsLines(
+        "Weight", pokemon.abilities[0].ability.name.replaceFirstChar { it.uppercase() })
+
+    Spacer(Modifier.height(15.dp))
+
+
+    Text("Breeding", fontWeight = FontWeight.Bold)
+    Spacer(Modifier.height(10.dp))
+    StatsLines(
+        "Gender", "♂ ${(8 - pokemon.gender_rate) * 12.5} ♀ ${pokemon.gender_rate * 12.5}%"
+    )
+    StatsLines("Eggs Groups", "Monster")
+    StatsLines("Egg Cycle", (pokemon.height.toInt() * 0.4 * 10).toInt().toString())
+}
+
+@Composable
+fun StatsSection(pokemon: Pokemon) {
+    StatusGraphs(title = "HP", value = pokemon.stats[0].base_stat, barColor = Color(0xfffc6c6d))
+    Spacer(modifier = Modifier.height(10.dp))
+
+
+    StatusGraphs(title = "Attack", value = pokemon.stats[1].base_stat, barColor = Color(0xff5eb382))
+    Spacer(modifier = Modifier.height(10.dp))
+    StatusGraphs(
+        title = "Defense", value = pokemon.stats[2].base_stat, barColor = Color(0xfffc6c6d)
+    )
+    Spacer(modifier = Modifier.height(10.dp))
+    StatusGraphs(title = "Sp.Atk", value = pokemon.stats[3].base_stat, barColor = Color(0xff5eb382))
+    Spacer(modifier = Modifier.height(10.dp))
+    StatusGraphs(title = "Sp.Def", value = pokemon.stats[4].base_stat, barColor = Color(0xfffc6c6d))
+    Spacer(modifier = Modifier.height(10.dp))
+    StatusGraphs(title = "Speed", value = pokemon.stats[5].base_stat, barColor = Color(0xff5eb382))
+    Spacer(modifier = Modifier.height(10.dp))
+    //StatusGraphs(title = "Total", value = pokemon.stats[6].base_stat, barColor = Color(0xfffc6c6d))
+    Spacer(Modifier.height(15.dp))
+
+
+    Text("Type defenses", fontWeight = FontWeight.Bold)
+    Spacer(Modifier.height(10.dp))
+    Text(
+        "The effectiveness of each type on ${pokemon.name}",
+        fontWeight = FontWeight.SemiBold,
+        color = Color.Gray
+    )
 }
 
 @Composable
@@ -273,6 +328,46 @@ fun StatsLines(title: String, result: String) {
         )
     }
     Spacer(modifier = Modifier.height(10.dp))
+}
+
+@Composable
+fun StatusGraphs(title: String, value: Int, barColor: Color) {
+
+    Row {
+        Text(
+            text = title,
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray,
+            modifier = Modifier.weight(2f)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(6f)
+        ) {
+            Text(value.toString(), modifier = Modifier.weight(1f))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+                    .background(Color(0xFFF9F9F9))
+                    .weight(6f)
+                    .border(
+                        width = 0.dp,
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(16.dp) // ← borda arredondada
+                    )
+                    .clip(RoundedCornerShape(16.dp))
+            ) {
+                Box(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .background(barColor)
+                        .background(barColor)
+                        //.width(40.dp)
+                        .fillMaxWidth(value / 100f)
+                ) {}
+            }
+        }
+    }
 }
 
 @Composable

@@ -1,6 +1,7 @@
 package com.example.tibiaclone.viewmodel
 
 import android.media.MediaPlayer
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -21,14 +22,14 @@ class DetailViewModel @Inject constructor(
     // dentro de uma composable() com NavBackStackEntry.
 
     private val _selectedPokemon = MutableStateFlow<Pokemon?>(null);
-
-    val selectedPokemon: StateFlow<Pokemon?> = _selectedPokemon;
-
-
     private val _mediaPlayer = MutableStateFlow<MediaPlayer?>(null);
     private val _audiosURL: MutableList<String> = mutableListOf();
-    private var _isLatestCry : Boolean = false;
+    private var _isAboutTabSelected = MutableStateFlow<Boolean>(true);
 
+    private var _isLatestCry: Boolean = false;
+
+    val isAboutTabSelected: StateFlow<Boolean> = _isAboutTabSelected
+    val selectedPokemon: StateFlow<Pokemon?> = _selectedPokemon;
 
     init {
         //getting id automatically from chosen pokemon
@@ -55,17 +56,20 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun toggleTab() {
+        _isAboutTabSelected.value = !isAboutTabSelected.value
+    }
 
     fun playCryFromPokemon() {
-            _mediaPlayer.value = MediaPlayer().apply {
-                setDataSource(if(_isLatestCry) _audiosURL[0] else _audiosURL[1])
-                setOnPreparedListener { it.start() }
-                setOnCompletionListener {
-                    it.release()
-                    _mediaPlayer.value = null
-                }
-                prepareAsync()
+        _mediaPlayer.value = MediaPlayer().apply {
+            setDataSource(if (_isLatestCry) _audiosURL[0] else _audiosURL[1])
+            setOnPreparedListener { it.start() }
+            setOnCompletionListener {
+                it.release()
+                _mediaPlayer.value = null
             }
+            prepareAsync()
+        }
         _isLatestCry = !_isLatestCry
     }
 }

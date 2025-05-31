@@ -17,9 +17,9 @@ class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) 
     }
 
 
-    suspend fun getFirstFiveHundredPokemons(): List<Pokemon> {
+    suspend fun getListOfPokemons(quantity:Int): List<Pokemon> {
         val list = mutableListOf<Pokemon>();
-        for (i in 1..500) {
+        for (i in 1..quantity) {
             try {
                 val pokemon = this.pokemonApi.getPokemonById(i);
                 list.add(pokemon)
