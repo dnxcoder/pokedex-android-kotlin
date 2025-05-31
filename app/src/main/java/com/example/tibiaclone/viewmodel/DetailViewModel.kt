@@ -1,5 +1,7 @@
 package com.example.tibiaclone.viewmodel
 
+import android.media.MediaPlayer
+import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.tibiaclone.data.model.Pokemon
@@ -22,13 +24,48 @@ class DetailViewModel @Inject constructor(
 
     val selectedPokemon: StateFlow<Pokemon?> = _selectedPokemon;
 
+
+    private val _mediaPlayer = MutableStateFlow<MediaPlayer?>(null);
+    private val _audiosURL: MutableList<String> = mutableListOf();
+    private var _isLatestCry : Boolean = false;
+
+
     init {
         //getting id automatically from chosen pokemon
         val pokemonIdFromRoute = savedStateHandle.get<String>("pokemonId")?.toIntOrNull()
 
         if (pokemonIdFromRoute != null) {
             _selectedPokemon.value = repository.getPokemonFromCache(pokemonIdFromRoute)
-        }
 
+            _audiosURL.add(_selectedPokemon.value!!.cries.legacy);
+            _audiosURL.add(_selectedPokemon.value!!.cries.latest);
+
+
+            //loading cry to mediaPlayer property
+            _mediaPlayer.value = MediaPlayer().apply {
+                setDataSource(_audiosURL[0])
+                setOnPreparedListener { it.start() }
+//                setOnCompletionListener {
+//                    it.release()
+//                    _mediaPlayer.value = null
+//                }
+                prepareAsync()
+            }
+
+        }
+    }
+
+
+    fun playCryFromPokemon() {
+            _mediaPlayer.value = MediaPlayer().apply {
+                setDataSource(if(_isLatestCry) _audiosURL[0] else _audiosURL[1])
+                setOnPreparedListener { it.start() }
+                setOnCompletionListener {
+                    it.release()
+                    _mediaPlayer.value = null
+                }
+                prepareAsync()
+            }
+        _isLatestCry = !_isLatestCry
     }
 }

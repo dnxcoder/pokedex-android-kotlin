@@ -14,6 +14,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.VolumeUp
+import androidx.compose.material.icons.filled.Volcano
+import androidx.compose.material.icons.outlined.VolumeUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -69,7 +72,16 @@ fun DetailsScreen(
                         .offset(y = -spriteOffset)
                         .zIndex(5f)
                 ) {
-                    Icon(imageVector = Icons.Filled.VolumeUp)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.VolumeUp,
+                        contentDescription = "Make pokemon cry",
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .offset(y = 90.dp)
+                            .size(70.dp)
+                            .clickable { viewModel.playCryFromPokemon() },
+                        tint = Color.White,
+                    )
                     AsyncImage(
                         model = getPrettyRemoteSprites(pokemon.id),
                         contentDescription = "Sprite of ${pokemon.name}",
