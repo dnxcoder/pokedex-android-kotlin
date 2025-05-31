@@ -25,7 +25,7 @@ fun AppNavHost(navController: NavHostController) {
             val pokemonId = backStackEntry.arguments?.getString("pokemonId")?.toIntOrNull()
 
             if (pokemonId != null) {
-                DetailsScreen(pokemonId = pokemonId)
+                DetailsScreen(pokemonId = pokemonId, navController = navController)
             }
         }
     }

@@ -15,16 +15,15 @@ object RetrofitInstance {
 
     @Provides
     @Singleton
-    fun providePokemonApi2(): PokemonApi {
+    fun providePokemonApi(): PokemonApi {
         return Retrofit.Builder().baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(PokemonApi::class.java)
     }
 
-
     @Provides
     @Singleton
-    fun providePokemonRepository2(pokemonApi2: PokemonApi): PokemonRepository {
-        return PokemonRepository(pokemonApi2)
+    fun providePokemonRepository(pokemonApi: PokemonApi): PokemonRepository {
+        return PokemonRepository(pokemonApi)
     }
 }

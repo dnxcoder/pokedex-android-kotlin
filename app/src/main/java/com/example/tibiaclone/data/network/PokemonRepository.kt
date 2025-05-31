@@ -17,10 +17,9 @@ class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) 
     }
 
 
-
-    suspend fun getFirstThreePokemons(): List<Pokemon> {
+    suspend fun getFirstFiveHundredPokemons(): List<Pokemon> {
         val list = mutableListOf<Pokemon>();
-        for (i in 1..3) {
+        for (i in 1..500) {
             try {
                 val pokemon = this.pokemonApi.getPokemonById(i);
                 list.add(pokemon)
@@ -35,9 +34,9 @@ class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) 
         return list;
     }
 
-    suspend fun getFirstFiveHundredPokemons(): List<Pokemon> {
+    suspend fun getFirst20Pokemons(): List<Pokemon> {
         val list = mutableListOf<Pokemon>();
-        for (i in 1..500) {
+        for (i in 1..20) {
             try {
                 val pokemon = this.pokemonApi.getPokemonById(i);
                 list.add(pokemon)
