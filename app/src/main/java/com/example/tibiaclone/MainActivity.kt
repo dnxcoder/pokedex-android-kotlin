@@ -14,6 +14,7 @@ import com.example.tibiaclone.ui.navigation.AppNavHost
 import com.example.tibiaclone.ui.theme.TibiaCloneTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.enableEdgeToEdge
+import com.example.tibiaclone.ui.navigation.MainScreenWithTabs
 
 
 @AndroidEntryPoint
@@ -36,8 +37,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun PokedexApp() {
-    val navController = rememberNavController()
-    AppNavHost(navController = navController)
+    MainScreenWithTabs();
 }
 
 
