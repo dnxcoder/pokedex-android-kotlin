@@ -3,10 +3,15 @@ package com.example.tibiaclone.viewmodel
 import android.media.MediaPlayer
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.tibiaclone.R
 import com.example.tibiaclone.data.model.Pokemon
 import com.example.tibiaclone.data.network.PokemonRepository
+import com.example.tibiaclone.data.statics.memesSounds
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,7 +50,9 @@ class DetailViewModel @Inject constructor(
             //loading cry to mediaPlayer property
             _mediaPlayer.value = MediaPlayer().apply {
                 setDataSource(_audiosURL[0])
-                setOnPreparedListener { it.start() }
+                setOnPreparedListener {
+                    it.start()
+                }
 //                setOnCompletionListener {
 //                    it.release()
 //                    _mediaPlayer.value = null
@@ -71,5 +78,26 @@ class DetailViewModel @Inject constructor(
             prepareAsync()
         }
         _isLatestCry = !_isLatestCry
+    }
+
+
+    fun playZeDaManga(pokemon: Pokemon) {
+
+        if(pokemon.id < memesSounds.size){
+            _mediaPlayer.value = MediaPlayer().apply {
+                //setDataSource("https://www.myinstants.com/media/sounds/ze-da-manga_G3QwWGi.mp3")
+                setDataSource(memesSounds[pokemon.id]);
+
+                setOnPreparedListener { it.start() }
+                setOnCompletionListener {
+                    it.release()
+                    _mediaPlayer.value = null
+                }
+                prepareAsync()
+            }
+        }
+        else{
+            playCryFromPokemon()
+        }
     }
 }

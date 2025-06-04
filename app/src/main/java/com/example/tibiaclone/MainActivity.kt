@@ -1,4 +1,5 @@
 package com.example.tibiaclone
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,11 +13,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tibiaclone.ui.navigation.AppNavHost
 import com.example.tibiaclone.ui.theme.TibiaCloneTheme
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.activity.enableEdgeToEdge
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             TibiaCloneTheme {
@@ -36,10 +39,6 @@ fun PokedexApp() {
     val navController = rememberNavController()
     AppNavHost(navController = navController)
 }
-
-
-
-
 
 
 @Preview(showBackground = true)

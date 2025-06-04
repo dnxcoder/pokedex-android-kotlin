@@ -2,6 +2,7 @@ package com.example.tibiaclone.ui.screens.details
 
 import PokemonType
 import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.text.Layout
 import android.util.Log
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.filled.Volcano
 import androidx.compose.material.icons.outlined.VolumeUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,6 +31,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -38,11 +41,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.tibiaclone.R
 import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.ui.theme.SetStatusBarColor
 import com.example.tibiaclone.utils.getPokemonBackgroundColor
 import com.example.tibiaclone.utils.getPrettyRemoteSprites
 import com.example.tibiaclone.viewmodel.DetailViewModel
 import com.example.tibiaclone.utils.*;
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
@@ -52,9 +59,15 @@ fun DetailsScreen(
     val selectedPokemon by viewModel.selectedPokemon.collectAsState()
     val isAboutTabSelected by viewModel.isAboutTabSelected.collectAsState();
 
+    SetStatusBarColor(
+        color = getPokemonBackgroundColor(pokemon = selectedPokemon!!),
+        darkIcons = false
+    )
+
 
     selectedPokemon?.let { pokemon ->
         BoxWithConstraints {
+
             val spriteOffset = maxHeight * 0.1f
 
             Box(
@@ -64,8 +77,11 @@ fun DetailsScreen(
             ) {
                 TopSection(
                     pokemon = pokemon,
-                    modifier = Modifier.align(Alignment.TopStart),
-                    goBack = { navController.popBackStack() })
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 15.dp),
+                    goBack = { navController.popBackStack() }
+                )
                 BottomSection(
                     pokemon = pokemon,
                     isAboutTabSelected = isAboutTabSelected,
@@ -86,7 +102,10 @@ fun DetailsScreen(
                             .align(Alignment.TopEnd)
                             .offset(y = 90.dp)
                             .size(70.dp)
-                            .clickable { viewModel.playCryFromPokemon() },
+                            .clickable {
+                                //viewModel.playZeDaManga(pokemon)
+                                viewModel.playCryFromPokemon()
+                            },
                         tint = Color.White,
                     )
                     AsyncImage(
@@ -217,8 +236,6 @@ fun BottomSection(
                     modifier = Modifier
                         .conditionalBorder(!isAboutTabSelected)
                         .clickable { toggleTab() })
-
-
             }
             Spacer(Modifier.height(20.dp))
             Column {
@@ -245,7 +262,7 @@ fun AboutSection(pokemon: Pokemon) {
     )
     //MultipleStatsLines("Abilities", pokemon)
     StatsLines(
-        "Weight", pokemon.abilities[0].ability.name.replaceFirstChar { it.uppercase() })
+        "Ability", pokemon.abilities[0].ability.name.replaceFirstChar { it.uppercase() })
 
     Spacer(Modifier.height(15.dp))
 

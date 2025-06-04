@@ -19,15 +19,12 @@ fun Subtitle(text: String) {
     val screenWithDp = configuration.screenWidthDp.dp
     val commonMargin = screenWithDp.value * 0.05;
 
-    Box {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = commonMargin.dp, end = commonMargin.dp)
-        ) {
-            Text(
-                "$text", fontWeight = FontWeight.SemiBold, fontSize = 18.sp
-            )
-        }
-    }
+
+    Text(
+        text,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        modifier = Modifier.padding(top = 40.dp, start = 20.dp)
+    )
+
 }

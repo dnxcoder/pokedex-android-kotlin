@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _pokemonList.value = pokemonRepository.getListOfPokemons(20);
+            _pokemonList.value = pokemonRepository.getListOfPokemons(30);
         }
     }
 

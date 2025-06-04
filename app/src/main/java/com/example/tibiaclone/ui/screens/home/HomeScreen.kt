@@ -11,15 +11,22 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.tibiaclone.viewmodel.HomeViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.tibiaclone.ui.theme.SetStatusBarColor
+
 
 @Composable
 fun HomeScreen(
     navController: NavHostController, viewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    SetStatusBarColor(color = Color.White, darkIcons = true)
+
     val pokemonList by viewModel.pokemonList.collectAsState()
 
     val configuration = LocalConfiguration.current
@@ -28,9 +35,8 @@ fun HomeScreen(
 
 
     if (pokemonList.isNotEmpty()) {
-        Column {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-            Spacer(modifier = Modifier.height(20.dp))
             Subtitle("Pokedex")
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -45,7 +51,8 @@ fun HomeScreen(
                         rowItems.forEach { pokemon ->
                             PokemonBox(
                                 pokemon = pokemon,
-                                onCLick = { it
+                                onCLick = {
+                                    it
                                     viewModel.setSelectedPokemon(it);
                                     Log.d("Debug", it.toString())
                                     navController.navigate("details/${pokemon.id}");
