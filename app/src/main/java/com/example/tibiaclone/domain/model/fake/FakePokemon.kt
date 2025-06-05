@@ -22,8 +22,5 @@ val fakePokemon = Pokemon(
     ),
     baseExperience = 64,
     cries = Cries(latest = "", legacy = ""),
-    abilities = listOf("overgrow", "chlorophyll"),
-    genderRate = 1,
-    hatchCounter = 20,
-    eggGroups = listOf("monster", "grass")
+    abilities = listOf("overgrow", "chlorophyll")
 )

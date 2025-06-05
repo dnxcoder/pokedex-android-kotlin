@@ -270,7 +270,7 @@ fun AboutSection(pokemon: Pokemon) {
     Text("Breeding", fontWeight = FontWeight.Bold)
     Spacer(Modifier.height(10.dp))
     StatsLines(
-        "Gender", "♂ ${(8 - pokemon.genderRate) * 12.5} ♀ ${pokemon.genderRate * 12.5}%"
+        "Gender", "♂ ${(8 - 2) * 12.5} ♀ ${2 * 12.5}%"
     )
     StatsLines("Eggs Groups", "Monster")
     StatsLines("Egg Cycle", (pokemon.height.toInt() * 0.4 * 10).toInt().toString())

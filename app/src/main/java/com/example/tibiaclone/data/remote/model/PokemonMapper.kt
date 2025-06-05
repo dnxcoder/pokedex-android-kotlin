@@ -17,8 +17,5 @@ fun PokemonDto.toPokemon(): Pokemon = Pokemon(
     stats = stats.map { Stat(it.stat.name, it.base_stat) },
     baseExperience = base_experience,
     cries = Cries(latest = cries.latest, legacy = cries.legacy),
-    abilities = abilities.map { it.ability.name },
-    genderRate = gender_rate,
-    hatchCounter = hatch_counter,
-    eggGroups = egg_groups.map { it.name }
+    abilities = abilities.map { it.ability.name }
 )

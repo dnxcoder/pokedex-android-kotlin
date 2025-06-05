@@ -16,9 +16,6 @@ data class Pokemon(
     val baseExperience: Int,
     val cries: Cries,
     val abilities: List<String>,
-    val genderRate: Int,
-    val hatchCounter: Int,
-    val eggGroups: List<String>
 )
 
 data class Stat(
