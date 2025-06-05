@@ -15,6 +15,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.filled.Volcano
@@ -47,6 +48,7 @@ import com.example.tibiaclone.ui.theme.SetStatusBarColor
 import com.example.tibiaclone.utils.getPokemonBackgroundColor
 import com.example.tibiaclone.utils.getPrettyRemoteSprites
 import com.example.tibiaclone.ui.viewmodel.DetailViewModel
+import com.example.tibiaclone.ui.viewmodel.FavoritesViewModel
 import com.example.tibiaclone.utils.*;
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,10 +56,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun DetailsScreen(
-    pokemonId: Int, navController: NavHostController, viewModel: DetailViewModel = hiltViewModel()
+    pokemonId: Int,
+    navController: NavHostController,
+    viewModel: DetailViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val selectedPokemon by viewModel.selectedPokemon.collectAsState()
     val isAboutTabSelected by viewModel.isAboutTabSelected.collectAsState();
+    val isFavorite by favoritesViewModel.isFavorite(pokemonId).collectAsState(initial = false)
 
     SetStatusBarColor(
         color = getPokemonBackgroundColor(pokemon = selectedPokemon!!),
@@ -80,7 +86,9 @@ fun DetailsScreen(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(top = 15.dp),
-                    goBack = { navController.popBackStack() }
+                    goBack = { navController.popBackStack() },
+                    isFavorite = isFavorite,
+                    onToggleFavorite = { favoritesViewModel.toggleFavorite(pokemon.id) }
                 )
                 BottomSection(
                     pokemon = pokemon,
@@ -123,7 +131,13 @@ fun DetailsScreen(
 }
 
 @Composable
-fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
+fun TopSection(
+    pokemon: Pokemon,
+    modifier: Modifier,
+    goBack: () -> Unit,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit
+) {
     Box(
         modifier = modifier
             .background(getPokemonBackgroundColor(pokemon))
@@ -149,10 +163,12 @@ fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
                             goBack()
                         })
                 Icon(
-                    Icons.Filled.Favorite,
+                    if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = "Favorite",
                     tint = Color.White,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable { onToggleFavorite() }
                 )
             }
 
