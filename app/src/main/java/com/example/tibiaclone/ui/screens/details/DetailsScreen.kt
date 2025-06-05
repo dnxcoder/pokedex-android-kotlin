@@ -15,6 +15,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.filled.Volcano
@@ -57,7 +58,8 @@ fun DetailsScreen(
     pokemonId: Int, navController: NavHostController, viewModel: DetailViewModel = hiltViewModel()
 ) {
     val selectedPokemon by viewModel.selectedPokemon.collectAsState()
-    val isAboutTabSelected by viewModel.isAboutTabSelected.collectAsState();
+    val isAboutTabSelected by viewModel.isAboutTabSelected.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
 
     SetStatusBarColor(
         color = getPokemonBackgroundColor(pokemon = selectedPokemon!!),
@@ -149,10 +151,12 @@ fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
                             goBack()
                         })
                 Icon(
-                    Icons.Filled.Favorite,
+                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = "Favorite",
                     tint = Color.White,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable { viewModel.toggleFavorite() }
                 )
             }
 
