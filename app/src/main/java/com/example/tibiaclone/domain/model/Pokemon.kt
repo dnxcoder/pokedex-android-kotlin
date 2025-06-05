@@ -1,6 +1,6 @@
-package com.example.tibiaclone.data.model
+package com.example.tibiaclone.domain.model
 
-import PokemonType
+import com.example.tibiaclone.domain.model.PokemonType
 
 data class Pokemon(
     val id: Int,

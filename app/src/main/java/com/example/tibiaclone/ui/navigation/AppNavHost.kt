@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.NavHostController
 import com.example.tibiaclone.ui.screens.home.HomeScreen
 import com.example.tibiaclone.ui.screens.details.DetailsScreen
-import com.example.tibiaclone.viewmodel.HomeViewModel
+import com.example.tibiaclone.ui.viewmodel.HomeViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import com.example.tibiaclone.viewmodel.HomeViewModel
+import com.example.tibiaclone.ui.viewmodel.HomeViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.SideEffect
