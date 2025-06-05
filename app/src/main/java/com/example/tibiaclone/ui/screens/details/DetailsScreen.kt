@@ -177,7 +177,7 @@ fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
                     )
                     Row {
                         pokemon.types.forEach {
-                            TypeBox(pokemon = pokemon, pokemonType = it.type.name)
+                            TypeBox(pokemon = pokemon, pokemonType = it)
                         }
                     }
                 }
@@ -252,7 +252,7 @@ fun BottomSection(
 
 @Composable
 fun AboutSection(pokemon: Pokemon) {
-    StatsLines("Species", pokemon.types[0].type.name.name)
+    StatsLines("Species", pokemon.types[0].name)
     StatsLines(
         "Height",
         "${pokemon.height.toString()}''  (${convertFeetToMetersAndCentimeters(pokemon.height)}m) "
@@ -262,7 +262,7 @@ fun AboutSection(pokemon: Pokemon) {
     )
     //MultipleStatsLines("Abilities", pokemon)
     StatsLines(
-        "Ability", pokemon.abilities[0].ability.name.replaceFirstChar { it.uppercase() })
+        "Ability", pokemon.abilities[0].replaceFirstChar { it.uppercase() })
 
     Spacer(Modifier.height(15.dp))
 
@@ -270,7 +270,7 @@ fun AboutSection(pokemon: Pokemon) {
     Text("Breeding", fontWeight = FontWeight.Bold)
     Spacer(Modifier.height(10.dp))
     StatsLines(
-        "Gender", "♂ ${(8 - pokemon.gender_rate) * 12.5} ♀ ${pokemon.gender_rate * 12.5}%"
+        "Gender", "♂ ${(8 - pokemon.genderRate) * 12.5} ♀ ${pokemon.genderRate * 12.5}%"
     )
     StatsLines("Eggs Groups", "Monster")
     StatsLines("Egg Cycle", (pokemon.height.toInt() * 0.4 * 10).toInt().toString())
@@ -278,21 +278,21 @@ fun AboutSection(pokemon: Pokemon) {
 
 @Composable
 fun StatsSection(pokemon: Pokemon) {
-    StatusGraphs(title = "HP", value = pokemon.stats[0].base_stat, barColor = Color(0xfffc6c6d))
+    StatusGraphs(title = "HP", value = pokemon.stats[0].value, barColor = Color(0xfffc6c6d))
     Spacer(modifier = Modifier.height(10.dp))
 
 
-    StatusGraphs(title = "Attack", value = pokemon.stats[1].base_stat, barColor = Color(0xff5eb382))
+    StatusGraphs(title = "Attack", value = pokemon.stats[1].value, barColor = Color(0xff5eb382))
     Spacer(modifier = Modifier.height(10.dp))
     StatusGraphs(
-        title = "Defense", value = pokemon.stats[2].base_stat, barColor = Color(0xfffc6c6d)
+        title = "Defense", value = pokemon.stats[2].value, barColor = Color(0xfffc6c6d)
     )
     Spacer(modifier = Modifier.height(10.dp))
-    StatusGraphs(title = "Sp.Atk", value = pokemon.stats[3].base_stat, barColor = Color(0xff5eb382))
+    StatusGraphs(title = "Sp.Atk", value = pokemon.stats[3].value, barColor = Color(0xff5eb382))
     Spacer(modifier = Modifier.height(10.dp))
-    StatusGraphs(title = "Sp.Def", value = pokemon.stats[4].base_stat, barColor = Color(0xfffc6c6d))
+    StatusGraphs(title = "Sp.Def", value = pokemon.stats[4].value, barColor = Color(0xfffc6c6d))
     Spacer(modifier = Modifier.height(10.dp))
-    StatusGraphs(title = "Speed", value = pokemon.stats[5].base_stat, barColor = Color(0xff5eb382))
+    StatusGraphs(title = "Speed", value = pokemon.stats[5].value, barColor = Color(0xff5eb382))
     Spacer(modifier = Modifier.height(10.dp))
     //StatusGraphs(title = "Total", value = pokemon.stats[6].base_stat, barColor = Color(0xfffc6c6d))
     Spacer(Modifier.height(15.dp))
@@ -405,13 +405,13 @@ fun MultipleStatsLines(title: String, pokemon: Pokemon) {
 
                 if (index + 1 < pokemon.abilities.size) {
                     Text(
-                        text = "${ability.ability.name.replaceFirstChar { it.uppercase() }}, ",
+                        text = "${ability.replaceFirstChar { it.uppercase() }}, ",
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black,
                     )
                 } else {
                     Text(
-                        text = "${ability.ability.name.replaceFirstChar { it.uppercase() }}",
+                        text = ability.replaceFirstChar { it.uppercase() },
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black,
                     )

@@ -72,9 +72,10 @@ fun PokemonBox(
                 modifier = Modifier.zIndex(2f)
             )
             pokemon.types.forEach {
-
                 TypeBox(
-                    pokemon = pokemon, pokemonType = it.type.name, modifier = Modifier
+                    pokemon = pokemon,
+                    pokemonType = it,
+                    modifier = Modifier
                         .align(Alignment.Start)
                         .offset(x = -(15.dp))
                 )

@@ -3,6 +3,7 @@ package com.example.tibiaclone.data.repository
 import android.util.Log
 import com.example.tibiaclone.domain.model.Pokemon
 import com.example.tibiaclone.data.remote.api.PokemonApi
+import com.example.tibiaclone.data.remote.model.toPokemon
 import javax.inject.Inject
 
 class PokemonRepositoryImpl @Inject constructor(private val pokemonApi: PokemonApi) : com.example.tibiaclone.domain.repository.PokemonRepository {
@@ -10,7 +11,7 @@ class PokemonRepositoryImpl @Inject constructor(private val pokemonApi: PokemonA
     private val pokemonCache = mutableMapOf<Int, Pokemon>();
 
     override suspend fun getPokemon(id: Int): Pokemon {
-        return this.pokemonApi.getPokemonById(id);
+        return pokemonApi.getPokemonById(id).toPokemon()
     }
 
     override fun getPokemonFromCache(id: Int?): Pokemon? {
@@ -22,7 +23,7 @@ class PokemonRepositoryImpl @Inject constructor(private val pokemonApi: PokemonA
         val list = mutableListOf<Pokemon>();
         for (i in 1..quantity) {
             try {
-                val pokemon = this.pokemonApi.getPokemonById(i);
+                val pokemon = pokemonApi.getPokemonById(i).toPokemon()
                 list.add(pokemon)
             } catch (error: Exception) {
                 error.printStackTrace()
@@ -39,7 +40,7 @@ class PokemonRepositoryImpl @Inject constructor(private val pokemonApi: PokemonA
         val list = mutableListOf<Pokemon>();
         for (i in 1..20) {
             try {
-                val pokemon = this.pokemonApi.getPokemonById(i);
+                val pokemon = pokemonApi.getPokemonById(i).toPokemon()
                 list.add(pokemon)
             } catch (error: Exception) {
                 error.printStackTrace()
