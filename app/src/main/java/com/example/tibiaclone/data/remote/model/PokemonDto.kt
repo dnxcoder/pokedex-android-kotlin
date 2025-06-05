@@ -11,11 +11,11 @@ data class PokemonDto(
     val types: List<PokemonTypeSlotDto>,
     val stats: List<PokemonStatDto>,
     val base_experience: Int,
-    val cries: CriesDto,
-    val abilities: List<PokemonAbilityDto>,
-    val gender_rate: Int,
-    val hatch_counter: Int,
-    val egg_groups: List<EggGroupDto>
+    val cries: CriesDto = CriesDto("", ""),
+    val abilities: List<PokemonAbilityDto> = emptyList(),
+    val gender_rate: Int = 0,
+    val hatch_counter: Int = 0,
+    val egg_groups: List<EggGroupDto> = emptyList()
 )
 
 data class CriesDto(
