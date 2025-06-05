@@ -1,60 +1,32 @@
 package com.example.tibiaclone.domain.model
 
-import com.example.tibiaclone.domain.model.PokemonType
+/**
+ * Domain model used across the application. It contains only the data that the
+ * UI actually needs and is decoupled from the network response structure.
+ */
 
 data class Pokemon(
     val id: Int,
     val name: String,
     val height: Int,
     val weight: Int,
-    val sprites: Sprites,
-    val types: List<PokemonTypeSlot>,
-    val stats: List<PokemonStat>,
-    val base_experience: Int,
+    val imageUrl: String,
+    val types: List<PokemonType>,
+    val stats: List<Stat>,
+    val baseExperience: Int,
     val cries: Cries,
-
-    // Abilities (e.g., Overgrow, Chlorophyll)
-    val abilities: List<PokemonAbility>,
-
-    // Additional species-related fields
-    val gender_rate: Int,          // -1 = genderless, 0–8 = female rate in 1/8 steps
-    val hatch_counter: Int,        // Number of cycles needed to hatch (×255 = steps)
-    val egg_groups: List<EggGroup> // Breeding groups the Pokémon belongs to
+    val abilities: List<String>,
+    val genderRate: Int,
+    val hatchCounter: Int,
+    val eggGroups: List<String>
 )
 
-data class Cries (
+data class Stat(
+    val name: String,
+    val value: Int
+)
+
+data class Cries(
     val latest: String,
     val legacy: String
-)
-
-data class Sprites(
-    val front_default: String
-)
-
-data class PokemonTypeSlot(
-    val slot: Int, val type: TypeInfo
-)
-
-data class TypeInfo(
-    val name: PokemonType
-)
-
-data class PokemonStat(
-    val base_stat: Int, val stat: StatInfo
-)
-
-data class StatInfo(
-    val name: String // Examples: "hp", "attack", "defense"
-)
-
-data class PokemonAbility(
-    val ability: AbilityInfo, val is_hidden: Boolean, val slot: Int
-)
-
-data class AbilityInfo(
-    val name: String, val url: String
-)
-
-data class EggGroup(
-    val name: String, val url: String
 )

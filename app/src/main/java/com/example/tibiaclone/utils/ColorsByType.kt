@@ -9,7 +9,7 @@ import com.example.tibiaclone.domain.model.PokemonType
 fun getPokemonBackgroundColor(pokemon: Pokemon): Color {
 
 
-    return when (pokemon.types[0].type.name) {
+    return when (pokemon.types[0]) {
         PokemonType.Normal -> Color(0xFF9FA19F)
         PokemonType.Fire -> Color(0xFFE52828)
         PokemonType.Water -> Color(0xFF2A81EF)
