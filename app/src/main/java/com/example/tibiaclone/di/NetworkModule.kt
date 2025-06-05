@@ -1,12 +1,16 @@
 package com.example.tibiaclone.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.example.tibiaclone.data.remote.api.PokemonApi
 import com.example.tibiaclone.data.repository.PokemonRepositoryImpl
+import com.example.tibiaclone.data.repository.FavoritesRepositoryImpl
 import com.example.tibiaclone.domain.repository.PokemonRepository
+import com.example.tibiaclone.domain.repository.FavoritesRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -28,5 +32,13 @@ object NetworkModule {
     @Singleton
     fun providePokemonRepository(pokemonApi: PokemonApi): PokemonRepository {
         return PokemonRepositoryImpl(pokemonApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(
+        @ApplicationContext context: Context
+    ): FavoritesRepository {
+        return FavoritesRepositoryImpl(context)
     }
 }
