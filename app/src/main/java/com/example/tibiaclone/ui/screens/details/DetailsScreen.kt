@@ -62,8 +62,7 @@ fun DetailsScreen(
     val isFavorite by viewModel.isFavorite.collectAsState()
 
     SetStatusBarColor(
-        color = getPokemonBackgroundColor(pokemon = selectedPokemon!!),
-        darkIcons = false
+        color = getPokemonBackgroundColor(pokemon = selectedPokemon!!), darkIcons = false
     )
 
 
@@ -78,12 +77,15 @@ fun DetailsScreen(
                     .background(getPokemonBackgroundColor(pokemon))
             ) {
                 TopSection(
+                    isFavorite,
                     pokemon = pokemon,
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(top = 15.dp),
-                    goBack = { navController.popBackStack() }
-                )
+                    favoritePokemon = { viewModel.toggleFavorite() },
+                    goBack = {
+                        navController.popBackStack()
+                    })
                 BottomSection(
                     pokemon = pokemon,
                     isAboutTabSelected = isAboutTabSelected,
@@ -125,7 +127,13 @@ fun DetailsScreen(
 }
 
 @Composable
-fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
+fun TopSection(
+    isFavorite: Boolean,
+    pokemon: Pokemon,
+    modifier: Modifier,
+    goBack: () -> Unit,
+    favoritePokemon: () -> Unit
+) {
     Box(
         modifier = modifier
             .background(getPokemonBackgroundColor(pokemon))
@@ -156,8 +164,7 @@ fun TopSection(pokemon: Pokemon, modifier: Modifier, goBack: () -> Unit) {
                     tint = Color.White,
                     modifier = Modifier
                         .size(30.dp)
-                        .clickable { viewModel.toggleFavorite() }
-                )
+                        .clickable { favoritePokemon() })
             }
 
             Spacer(modifier = Modifier.height(10.dp))
