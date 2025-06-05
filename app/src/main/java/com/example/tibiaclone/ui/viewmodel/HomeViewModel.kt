@@ -1,11 +1,11 @@
-package com.example.tibiaclone.viewmodel
+package com.example.tibiaclone.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tibiaclone.data.model.Pokemon
-import com.example.tibiaclone.data.model.fake.fakePokemon
-import com.example.tibiaclone.data.network.PokemonRepository
+import com.example.tibiaclone.domain.model.Pokemon
+import com.example.tibiaclone.domain.model.fake.fakePokemon
+import com.example.tibiaclone.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

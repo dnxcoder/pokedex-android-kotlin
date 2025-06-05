@@ -1,6 +1,6 @@
 package com.example.tibiaclone.ui.screens.home
 
-import PokemonType
+import com.example.tibiaclone.domain.model.PokemonType
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.example.tibiaclone.R
-import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.domain.model.Pokemon
 import com.example.tibiaclone.utils.getPokemonBackgroundColor
 import com.example.tibiaclone.utils.getPrettyRemoteSprites
 

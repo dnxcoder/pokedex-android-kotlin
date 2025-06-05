@@ -1,4 +1,4 @@
-package com.example.tibiaclone.viewmodel
+package com.example.tibiaclone.ui.viewmodel
 
 import android.media.MediaPlayer
 import androidx.compose.runtime.mutableStateOf
@@ -8,8 +8,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.tibiaclone.R
-import com.example.tibiaclone.data.model.Pokemon
-import com.example.tibiaclone.data.network.PokemonRepository
+import com.example.tibiaclone.domain.model.Pokemon
+import com.example.tibiaclone.domain.repository.PokemonRepository
 import com.example.tibiaclone.data.statics.memesSounds
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.lifecycle.HiltViewModel

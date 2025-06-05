@@ -2,7 +2,8 @@ package com.example.tibiaclone.utils
 
 import android.util.Log
 import androidx.compose.ui.graphics.Color
-import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.domain.model.Pokemon
+import com.example.tibiaclone.domain.model.PokemonType
 
 
 fun getPokemonBackgroundColor(pokemon: Pokemon): Color {

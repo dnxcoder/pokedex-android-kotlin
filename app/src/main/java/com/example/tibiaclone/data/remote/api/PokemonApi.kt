@@ -1,6 +1,6 @@
-package com.example.tibiaclone.data.network
+package com.example.tibiaclone.data.remote.api
 
-import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.domain.model.Pokemon
 import retrofit2.http.GET
 import retrofit2.http.Path
 

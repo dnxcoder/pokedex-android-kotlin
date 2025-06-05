@@ -1,6 +1,6 @@
-package com.example.tibiaclone.data.model.fake
+package com.example.tibiaclone.domain.model.fake
 
-import com.example.tibiaclone.data.model.*
+import com.example.tibiaclone.domain.model.*
 
 val fakePokemon = Pokemon(
     id = 1,

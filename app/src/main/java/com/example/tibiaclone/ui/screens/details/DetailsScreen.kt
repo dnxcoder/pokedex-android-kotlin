@@ -1,6 +1,6 @@
 package com.example.tibiaclone.ui.screens.details
 
-import PokemonType
+import com.example.tibiaclone.domain.model.PokemonType
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.text.Layout
@@ -42,11 +42,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.tibiaclone.R
-import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.domain.model.Pokemon
 import com.example.tibiaclone.ui.theme.SetStatusBarColor
 import com.example.tibiaclone.utils.getPokemonBackgroundColor
 import com.example.tibiaclone.utils.getPrettyRemoteSprites
-import com.example.tibiaclone.viewmodel.DetailViewModel
+import com.example.tibiaclone.ui.viewmodel.DetailViewModel
 import com.example.tibiaclone.utils.*;
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.MutableStateFlow

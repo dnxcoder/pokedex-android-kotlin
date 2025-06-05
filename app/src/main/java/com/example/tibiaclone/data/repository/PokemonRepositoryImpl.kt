@@ -1,23 +1,24 @@
-package com.example.tibiaclone.data.network
+package com.example.tibiaclone.data.repository
 
 import android.util.Log
-import com.example.tibiaclone.data.model.Pokemon
+import com.example.tibiaclone.domain.model.Pokemon
+import com.example.tibiaclone.data.remote.api.PokemonApi
 import javax.inject.Inject
 
-class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) {
+class PokemonRepositoryImpl @Inject constructor(private val pokemonApi: PokemonApi) : com.example.tibiaclone.domain.repository.PokemonRepository {
 
     private val pokemonCache = mutableMapOf<Int, Pokemon>();
 
-    suspend fun getPokemon(id: Int): Pokemon {
+    override suspend fun getPokemon(id: Int): Pokemon {
         return this.pokemonApi.getPokemonById(id);
     }
 
-    fun getPokemonFromCache(id: Int?): Pokemon? {
+    override fun getPokemonFromCache(id: Int?): Pokemon? {
         return pokemonCache[id];
     }
 
 
-    suspend fun getListOfPokemons(quantity:Int): List<Pokemon> {
+    override suspend fun getListOfPokemons(quantity:Int): List<Pokemon> {
         val list = mutableListOf<Pokemon>();
         for (i in 1..quantity) {
             try {
@@ -34,7 +35,7 @@ class PokemonRepository @Inject constructor(private val pokemonApi: PokemonApi) 
         return list;
     }
 
-    suspend fun getFirst20Pokemons(): List<Pokemon> {
+    override suspend fun getFirst20Pokemons(): List<Pokemon> {
         val list = mutableListOf<Pokemon>();
         for (i in 1..20) {
             try {
