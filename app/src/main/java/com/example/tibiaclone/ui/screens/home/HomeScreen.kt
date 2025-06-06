@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.tibiaclone.ui.theme.SetStatusBarColor
 
 
@@ -26,6 +27,9 @@ fun HomeScreen(
 ) {
 
     SetStatusBarColor(color = Color.White, darkIcons = true)
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val isHomeRoute = navBackStackEntry?.destination?.route == "home"
 
     val pokemonList by viewModel.pokemonList.collectAsState()
 
@@ -57,6 +61,7 @@ fun HomeScreen(
                                     Log.d("Debug", it.toString())
                                     navController.navigate("details/${pokemon.id}");
                                 },
+                                enabled = isHomeRoute,
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(2.dp)

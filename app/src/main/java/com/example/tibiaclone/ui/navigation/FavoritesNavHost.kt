@@ -13,9 +13,12 @@ fun FavoritesNavHost() {
 
     NavHost(navController = navController, startDestination = "favorites") {
         composable("favorites") {
-            FavoritesScreen (onPokemonClick = { id ->
-                navController.navigate("details/$id")
-            })
+            FavoritesScreen(
+                navController = navController,
+                onPokemonClick = { id ->
+                    navController.navigate("details/$id")
+                }
+            )
         }
         composable("details/{pokemonId}") { backStackEntry ->
             val pokemonId = backStackEntry.arguments?.getString("pokemonId")?.toIntOrNull()
