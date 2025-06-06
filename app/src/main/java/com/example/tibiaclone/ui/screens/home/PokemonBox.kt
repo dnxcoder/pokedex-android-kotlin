@@ -40,7 +40,10 @@ import com.example.tibiaclone.utils.getPrettyRemoteSprites
 
 @Composable
 fun PokemonBox(
-    pokemon: Pokemon, modifier: Modifier = Modifier, onCLick: (Pokemon) -> Unit
+    pokemon: Pokemon,
+    modifier: Modifier = Modifier,
+    onCLick: (Pokemon) -> Unit,
+    enabled: Boolean = true
 ) {
     val borderGray = colorResource(id = R.color.border_gray)
 
@@ -55,7 +58,7 @@ fun PokemonBox(
             )
             .border(width = 1.dp, color = borderGray, shape = RoundedCornerShape(8.dp))
             .clipToBounds() // overflow -> hidden
-            .clickable {
+            .clickable(enabled = enabled) {
                 onCLick(pokemon)
             }
             .padding(5.dp)) {
